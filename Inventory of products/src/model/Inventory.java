@@ -30,11 +30,13 @@ public class Inventory {
     public boolean check_if_product_exists (String name){
         
         boolean is_present = false;
-        for (Product producto : this.list_products) {
+        if(!this.getList_products().isEmpty()){
+        for (Product producto : this.getList_products()) {
             if (producto.getName().equalsIgnoreCase(name)) {// comparar la lista con el nombre del producto sin importar mayusulas o minusculas
                 is_present = true; // si el producto ya esta retorna true
                 break;
             }
+        }
         }
             return is_present;
     }
