@@ -9,13 +9,10 @@ import java.util.ArrayList;
 
 public class Inventory {
     
-    private ArrayList <Product> list_products ;
+    private ArrayList <Product> list_products;
 
     public Inventory() {
-    }
-    
-    public Inventory(ArrayList<Product> list_products) {
-        this.list_products = list_products;
+        this.list_products = new ArrayList <>();
     }
 
     public ArrayList<Product> getList_products() {
@@ -25,13 +22,13 @@ public class Inventory {
     public void setList_products(ArrayList<Product> list_products) {
         this.list_products = list_products;
     }
-    
+      
     // verificar que el producto no este ya en el inventario
     public boolean check_if_product_exists (String name){
         
         boolean is_present = false;
-        if(!this.getList_products().isEmpty()){
-        for (Product producto : this.getList_products()) {
+        if(!this.list_products.isEmpty()){
+        for (Product producto : getList_products()) {
             if (producto.getName().equalsIgnoreCase(name)) {// comparar la lista con el nombre del producto sin importar mayusulas o minusculas
                 is_present = true; // si el producto ya esta retorna true
                 break;
