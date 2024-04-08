@@ -10,7 +10,10 @@ import java.util.ArrayList;
 public class Inventory {
     
     private ArrayList <Product> list_products ;
-   
+
+    public Inventory() {
+    }
+    
 
     public Inventory(ArrayList<Product> list_products) {
         this.list_products = list_products;
