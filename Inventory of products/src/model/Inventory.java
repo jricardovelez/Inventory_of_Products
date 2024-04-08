@@ -24,6 +24,7 @@ public class Inventory {
         this.list_products = list_products;
     }
     
+    // verificar que el producto no este ya en el inventario
     public boolean check_if_product_exists (String name){
         
         boolean is_present = false;
