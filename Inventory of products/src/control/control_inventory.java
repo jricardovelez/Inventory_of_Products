@@ -15,8 +15,8 @@ import view.frmInventory;
 
 public class control_inventory  extends AbstractTableModel implements ActionListener {
 
-    private final frmInventory frmInventory;
-    private final Inventory inventory;
+    private frmInventory frmInventory;
+    private Inventory inventory;
 
     public control_inventory(frmInventory frmInventory,Inventory inventory) {
         this.frmInventory = frmInventory;
@@ -41,6 +41,7 @@ public class control_inventory  extends AbstractTableModel implements ActionList
                     double price= Double.parseDouble(this.frmInventory.txtPrice.getText());
                     int stock = Integer.parseInt(this.frmInventory.txtStock.getText());        
                     this.inventory.add_product(new Product (name, price, stock));
+                    initTable();
                 }
             }
         }
@@ -83,6 +84,30 @@ public class control_inventory  extends AbstractTableModel implements ActionList
 
         // Todos los campos son válidos
         return true;
+    } 
+    
+     // inicializar tabla
+    public void initTable(){
+        
+        // Verificar si la tabla ya tiene filas
+        if (this.frmInventory.tb.getRowCount() > 0) {
+        // Si la tabla ya tiene filas, eliminarlas todas
+            this.frmInventory.tb.setRowCount(0);
+        }
+        
+        if(!this.inventory.getList_products().isEmpty()){// mientras la lista no este vacia
+            // Recorrer la lista de productos y agregar los datos a la tabla
+            for (Product product : this.inventory.getList_products()) {
+                Object[] product_data = {
+                product.getName(),
+                product.getPrice(),
+                product.getStock(),
+                };
+                this.frmInventory.tb.addRow(product_data); // añadir fila a la tabla
+            }
+        
+        }
+        
     } 
     
     
