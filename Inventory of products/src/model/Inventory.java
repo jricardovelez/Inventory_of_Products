@@ -14,7 +14,6 @@ public class Inventory {
     public Inventory() {
     }
     
-
     public Inventory(ArrayList<Product> list_products) {
         this.list_products = list_products;
     }
