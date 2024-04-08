@@ -8,13 +8,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import static java.lang.String.valueOf;
 import javax.swing.JOptionPane;
-import javax.swing.table.AbstractTableModel;
 import model.Inventory;
 import model.Product;
 import view.frmInventory;
 
 
-public class control_inventory  extends AbstractTableModel implements ActionListener {
+public class control_inventory  implements ActionListener {
 
     private frmInventory frmInventory;
     private Inventory inventory;
@@ -81,20 +80,6 @@ public class control_inventory  extends AbstractTableModel implements ActionList
         
     }
 
-    @Override
-    public int getRowCount() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public int getColumnCount() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
     
     // validar que los campos no esten vacios y tengan un tipo correcto
     private boolean validateFields() {
