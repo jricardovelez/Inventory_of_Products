@@ -44,6 +44,7 @@ public class control_inventory  extends AbstractTableModel implements ActionList
                     initTable();
                 }
             }
+                    clean_txt_data(); // limpiar txt componentes
         }
         
          
@@ -109,6 +110,13 @@ public class control_inventory  extends AbstractTableModel implements ActionList
         }
         
     } 
+    
+    // limpiar componentes de texto del producto
+    public void clean_txt_data(){
+        this.frmInventory.txtName.setText("");
+        this.frmInventory.txtPrice.setText("");
+        this.frmInventory.txtStock.setText("");
+    }
     
     
 }
