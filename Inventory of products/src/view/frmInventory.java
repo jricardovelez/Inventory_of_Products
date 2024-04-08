@@ -8,7 +8,10 @@ import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,6 +23,7 @@ public class frmInventory extends javax.swing.JFrame {
      * Creates new form frmInventory
      */
     pain_imagen fondo = new pain_imagen();
+    public final DefaultTableModel tb = new DefaultTableModel();
     
     public frmInventory() {
         initComponents();
@@ -29,6 +33,18 @@ public class frmInventory extends javax.swing.JFrame {
         setSize(900, 600);
         getContentPane().add(jPanel1, BorderLayout.CENTER);
         setLocationRelativeTo(null);
+           // inicializar tabla 
+        String ids[]= {"Name", "Price", "Stock"};
+        tb.setColumnIdentifiers(ids);
+        table_Inventory.setModel(tb);
+        // definir tamamo de la columna de los nombre de los productos
+        table_Inventory.getColumnModel().getColumn(0).setPreferredWidth(155);
+        // Centrar el contenido de las celdas
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        table_Inventory.setDefaultRenderer(Object.class, centerRenderer);
+        // Centrar los títulos de columna
+        ((DefaultTableCellRenderer) table_Inventory.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
     }
 
     /**
@@ -121,15 +137,7 @@ public class frmInventory extends javax.swing.JFrame {
             new String [] {
                 "Name", "Price", "Stock"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         table_Inventory.setOpaque(false);
         table_Inventory.setRowHeight(40);
         jScrollPane1.setViewportView(table_Inventory);
