@@ -37,6 +37,8 @@ public class frmInventory extends javax.swing.JFrame {
         String ids[]= {"Name", "Price", "Stock"};
         tb.setColumnIdentifiers(ids);
         table_Inventory.setModel(tb);
+        //table_Inventory.setEnabled(false); // Esto deshabilitará la edición de todas las celdas en la tabla
+        //table_Inventory.setRowSelectionAllowed(true); // Esto permite la selección de filas
         // definir tamamo de la columna de los nombre de los productos
         table_Inventory.getColumnModel().getColumn(0).setPreferredWidth(155);
         // Centrar el contenido de las celdas

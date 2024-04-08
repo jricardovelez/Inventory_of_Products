@@ -6,6 +6,7 @@ package control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import static java.lang.String.valueOf;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import model.Inventory;
@@ -17,6 +18,8 @@ public class control_inventory  extends AbstractTableModel implements ActionList
 
     private frmInventory frmInventory;
     private Inventory inventory;
+    private int swiche=0;
+    int selectedRow ;
 
     public control_inventory(frmInventory frmInventory,Inventory inventory) {
         this.frmInventory = frmInventory;
@@ -30,16 +33,20 @@ public class control_inventory  extends AbstractTableModel implements ActionList
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+        selectedRow = this.frmInventory.table_Inventory.getSelectedRow(); 
         if(e.getSource() == this.frmInventory.btnAdd){
+            String name = this.frmInventory.txtName.getText();
+            double price= Double.parseDouble(this.frmInventory.txtPrice.getText());
+            int stock = Integer.parseInt(this.frmInventory.txtStock.getText()); 
             if(validateFields()){
-                if(inventory.check_if_product_exists(this.frmInventory.txtName.getText())){
+                if(swiche==1){
+                    this.inventory.update_product(selectedRow,new Product(name,price,stock));
+                    initTable();
+                    swiche=0;
+                }else if(inventory.check_if_product_exists(this.frmInventory.txtName.getText())){
                     JOptionPane.showMessageDialog(null,"the product is already in inventory");
-                }
-                else{
-                    String name = this.frmInventory.txtName.getText();
-                    double price= Double.parseDouble(this.frmInventory.txtPrice.getText());
-                    int stock = Integer.parseInt(this.frmInventory.txtStock.getText());        
+                }else{
+                           
                     this.inventory.add_product(new Product (name, price, stock));
                     initTable();
                 }
@@ -47,6 +54,29 @@ public class control_inventory  extends AbstractTableModel implements ActionList
                     clean_txt_data(); // limpiar txt componentes
         }
         
+        if (e.getSource() == this.frmInventory.btnDelete) {
+            if (selectedRow != -1) {
+                this.inventory.remove_product(selectedRow);
+                initTable();
+            }else {
+                JOptionPane.showMessageDialog(null, "Por favor, seleccione un producto.");
+            }
+        }  
+        
+         if (e.getSource() == this.frmInventory.btnUpdate) {
+            if (selectedRow != -1) {
+                String name =  (String) this.frmInventory.table_Inventory.getValueAt(selectedRow, 0); // Obtiene el valor de la celda en la columna 0 (nombre)
+                String price = valueOf(this.frmInventory.table_Inventory.getValueAt(selectedRow, 1)); // Obtiene el valor de la celda en la columna 1 (precio)
+                String stock = valueOf(this.frmInventory.table_Inventory.getValueAt(selectedRow, 2)); // Obtiene el valor de la celda en la columna 2 (stock)
+
+                this.frmInventory.txtName.setText(name);
+                this.frmInventory.txtPrice.setText(price);
+                this.frmInventory.txtStock.setText(stock);  
+                swiche=1;
+            }else {
+                JOptionPane.showMessageDialog(null, "Por favor, seleccione un producto.");
+            }
+        }
          
         
     }
