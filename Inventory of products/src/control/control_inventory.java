@@ -46,7 +46,7 @@ public class control_inventory  extends AbstractTableModel implements ActionList
             }
         }
         
-        
+         
         
     }
 
