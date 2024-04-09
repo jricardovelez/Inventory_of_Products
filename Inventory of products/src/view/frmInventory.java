@@ -23,7 +23,12 @@ public class frmInventory extends javax.swing.JFrame {
      * Creates new form frmInventory
      */
     pain_imagen fondo = new pain_imagen();
-    public final DefaultTableModel tb = new DefaultTableModel();
+    public final DefaultTableModel tb = new DefaultTableModel(){
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false; // Esto hace que todas las celdas sean no editables
+        }
+    };
     
     public frmInventory() {
         initComponents();
