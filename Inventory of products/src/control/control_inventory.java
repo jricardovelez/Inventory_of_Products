@@ -7,6 +7,7 @@ package control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import static java.lang.String.valueOf;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import model.Inventory;
 import model.Product;
@@ -34,10 +35,11 @@ public class control_inventory  implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         selectedRow = this.frmInventory.table_Inventory.getSelectedRow(); 
         if(e.getSource() == this.frmInventory.btnAdd){
-            String name = this.frmInventory.txtName.getText();
-            double price= Double.parseDouble(this.frmInventory.txtPrice.getText());
-            int stock = Integer.parseInt(this.frmInventory.txtStock.getText()); 
             if(validateFields()){
+                String name = this.frmInventory.txtName.getText();
+                double price= Double.parseDouble(this.frmInventory.txtPrice.getText());
+                int stock = Integer.parseInt(this.frmInventory.txtStock.getText()); 
+         
                 if(swiche==1){
                     this.inventory.update_product(selectedRow,new Product(name,price,stock));
                     initTable();
@@ -62,7 +64,7 @@ public class control_inventory  implements ActionListener {
             }
         }  
         
-         if (e.getSource() == this.frmInventory.btnUpdate) {
+        if (e.getSource() == this.frmInventory.btnUpdate) {
             if (selectedRow != -1) {
                 String name =  (String) this.frmInventory.table_Inventory.getValueAt(selectedRow, 0); // Obtiene el valor de la celda en la columna 0 (nombre)
                 String price = valueOf(this.frmInventory.table_Inventory.getValueAt(selectedRow, 1)); // Obtiene el valor de la celda en la columna 1 (precio)
@@ -75,6 +77,24 @@ public class control_inventory  implements ActionListener {
             }else {
                 JOptionPane.showMessageDialog(null, "Por favor, seleccione un producto.");
             }
+        }
+        
+        if (e.getSource() == this.frmInventory.btnSearch) {
+            // Crear una nueva lista para almacenar los productos encontrados
+            ArrayList<Product> products_found;
+            if (this.frmInventory.txtSearch.getText().isEmpty()){
+                   initTable();
+            }else{
+                products_found = this.inventory.search_products(this.frmInventory.txtSearch.getText());
+                // Retornar la lista de productos encontrados // mientras esta no este vacia
+                if(products_found.isEmpty()){
+                    JOptionPane.showMessageDialog(null,"No products with those characteristics were found"); 
+                }else{
+                    filtered_table(products_found);
+                }
+
+            }
+            
         }
          
         
@@ -114,6 +134,29 @@ public class control_inventory  implements ActionListener {
         if(!this.inventory.getList_products().isEmpty()){// mientras la lista no este vacia
             // Recorrer la lista de productos y agregar los datos a la tabla
             for (Product product : this.inventory.getList_products()) {
+                Object[] product_data = {
+                product.getName(),
+                product.getPrice(),
+                product.getStock(),
+                };
+                this.frmInventory.tb.addRow(product_data); // añadir fila a la tabla
+            }
+        
+        }
+        
+    } 
+    
+    public void filtered_table(ArrayList<Product> products_found){
+        
+        // Verificar si la tabla ya tiene filas
+        if (this.frmInventory.tb.getRowCount() > 0) {
+        // Si la tabla ya tiene filas, eliminarlas todas
+            this.frmInventory.tb.setRowCount(0);
+        }
+        
+        if(!products_found.isEmpty()){// mientras la lista no este vacia
+            // Recorrer la lista de productos y agregar los datos a la tabla
+            for (Product product : products_found) {
                 Object[] product_data = {
                 product.getName(),
                 product.getPrice(),
