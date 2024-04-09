@@ -63,13 +63,13 @@ public class Inventory {
                 products_found.add(product);
             }
         }
+        
+        
+     
 
-        // Retornar la lista de productos encontrados // mientras esta no este vacia
-        if(!products_found.isEmpty()){
+        // Retornar la lista de productos encontrados 
             return products_found;
-        }else{
-            return this.list_products; // si esta vacia la lista products_found retorna la lista original
-        }
+       
     }
     
 }
