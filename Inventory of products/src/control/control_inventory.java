@@ -109,8 +109,12 @@ public class control_inventory  implements ActionListener {
             return false;
         }
 
-        // Verificar que el precio y el stock sean números válidos
+        // Verificar que el precio y el stock sean números válidos y que el name no sea so lo numeros
         try {
+            if (!validarNombre(this.frmInventory.txtName.getText())) {
+                JOptionPane.showMessageDialog(null,"The product name cannot be just numbers"); 
+                return false;
+            } 
             Double.valueOf(this.frmInventory.txtPrice.getText());
             Integer.valueOf(this.frmInventory.txtStock.getText());
         } catch (NumberFormatException e) {
@@ -121,6 +125,17 @@ public class control_inventory  implements ActionListener {
         // Todos los campos son válidos
         return true;
     } 
+    
+    public boolean validarNombre(String name) {
+         // La expresión regular ^.*[a-zA-Z]+.*$ coincide con cualquier cadena que contenga al menos una letra
+        // Explicación de la expresión regular:
+        // ^          -> Coincide con el inicio de la cadena
+        // .*         -> Coincide con cero o más caracteres (cualquier carácter)
+        // [a-zA-Z]+  -> Coincide con una o más letras (mayúsculas o minúsculas)
+        // .*         -> Coincide con cero o más caracteres (cualquier carácter)
+        // $          -> Coincide con el final de la cadena
+        return name.matches("^.*[a-zA-Z]+.*$");
+    }
     
      // inicializar tabla
     public void initTable(){
