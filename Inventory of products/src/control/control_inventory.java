@@ -33,29 +33,29 @@ public class control_inventory  implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        selectedRow = this.frmInventory.table_Inventory.getSelectedRow(); 
-        if(e.getSource() == this.frmInventory.btnAdd){
-            if(validateFields()){
+        selectedRow = this.frmInventory.table_Inventory.getSelectedRow(); // se obtiene el indice de la fila seleccionada de la tabla
+        if(e.getSource() == this.frmInventory.btnAdd){ // dectectar llamada del boton add
+            if(validateFields()){  // validar campos de entrada
                 String name = this.frmInventory.txtName.getText();
                 double price= Double.parseDouble(this.frmInventory.txtPrice.getText());
                 int stock = Integer.parseInt(this.frmInventory.txtStock.getText()); 
          
-                if(swiche==1){
+                if(swiche==1){ // si swiche esta en uno quiere decir que se va añadir un producto ya existente pero actualizado
                     this.inventory.update_product(selectedRow,new Product(name,price,stock));
                     initTable();
                     swiche=0;
-                }else if(inventory.check_if_product_exists(this.frmInventory.txtName.getText())){
+                }else if(inventory.check_if_product_exists(this.frmInventory.txtName.getText())){ // se valida que el producto ya esta en el inventario
                     JOptionPane.showMessageDialog(null,"the product is already in inventory");
                 }else{
                            
-                    this.inventory.add_product(new Product (name, price, stock));
+                    this.inventory.add_product(new Product (name, price, stock)); // se agrega el producto al inventario
                     initTable();
                 }
             }
                     clean_txt_data(); // limpiar txt componentes
         }
         
-        if (e.getSource() == this.frmInventory.btnDelete) {
+        if (e.getSource() == this.frmInventory.btnDelete) {  // dectectar llamada del boton delete
             if (selectedRow != -1) {
                 this.inventory.remove_product(selectedRow);
                 initTable();
@@ -64,7 +64,7 @@ public class control_inventory  implements ActionListener {
             }
         }  
         
-        if (e.getSource() == this.frmInventory.btnUpdate) {
+        if (e.getSource() == this.frmInventory.btnUpdate) { // dectectar llamada del boton update
             if (selectedRow != -1) {
                 String name =  (String) this.frmInventory.table_Inventory.getValueAt(selectedRow, 0); // Obtiene el valor de la celda en la columna 0 (nombre)
                 String price = valueOf(this.frmInventory.table_Inventory.getValueAt(selectedRow, 1)); // Obtiene el valor de la celda en la columna 1 (precio)
@@ -79,7 +79,7 @@ public class control_inventory  implements ActionListener {
             }
         }
         
-        if (e.getSource() == this.frmInventory.btnSearch) {
+        if (e.getSource() == this.frmInventory.btnSearch) {  // dectectar llamada del boton search
             // Crear una nueva lista para almacenar los productos encontrados
             ArrayList<Product> products_found;
             if (this.frmInventory.txtSearch.getText().isEmpty()){
