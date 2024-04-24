@@ -1,0 +1,6 @@
+manzana,3.2,10
+mango,5.2,45
+pera,4.5,35
+banano,8.2,30
+uva,6.8,15
+sandia,6.2,30
