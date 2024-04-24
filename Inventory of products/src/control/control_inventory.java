@@ -9,6 +9,11 @@ import java.awt.event.ActionListener;
 import static java.lang.String.valueOf;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import model.Inventory;
 import model.Product;
 import view.frmInventory;
@@ -28,8 +33,40 @@ public class control_inventory  implements ActionListener {
         this.frmInventory.btnDelete.addActionListener(this);
         this.frmInventory.btnSearch.addActionListener(this);
         this.frmInventory.btnUpdate.addActionListener(this);
+        
+        // Cargar productos desde el archivo al iniciar la aplicación
+        loadProductsFromFile();
+        // Inicializar la tabla con los productos cargados
+        initTable();
     }
     
+    // Método para cargar los productos desde un archivo
+    private void loadProductsFromFile() {
+        try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\estiv\\OneDrive\\Documentos\\Inventory_of_Products\\Inventory of products\\src\\data\\productos.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(","); // Suponiendo que el archivo CSV tiene el formato: nombre,precio,stock
+                String name = parts[0];
+                double price = Double.parseDouble(parts[1]);
+                int stock = Integer.parseInt(parts[2]);
+                inventory.add_product(new Product(name, price, stock));
+            }
+        } catch (IOException | NumberFormatException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Método para guardar los productos en un archivo
+    private void saveProductsInFile() {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\Users\\estiv\\OneDrive\\Documentos\\Inventory_of_Products\\Inventory of products\\src\\data\\productos.txt", false))) {
+            for (Product product : inventory.getList_products()) {
+                bw.write(product.getName() + "," + product.getPrice() + "," + product.getStock());
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -43,6 +80,7 @@ public class control_inventory  implements ActionListener {
                 if(swiche==1){ // si swiche esta en uno quiere decir que se va añadir un producto ya existente pero actualizado
                     this.inventory.update_product(selectedRow,new Product(name,price,stock));
                     initTable();
+                    saveProductsInFile();
                     swiche=0;
                 }else if(inventory.check_if_product_exists(this.frmInventory.txtName.getText())){ // se valida que el producto ya esta en el inventario
                     JOptionPane.showMessageDialog(null,"the product is already in inventory");
@@ -50,6 +88,7 @@ public class control_inventory  implements ActionListener {
                            
                     this.inventory.add_product(new Product (name, price, stock)); // se agrega el producto al inventario
                     initTable();
+                    saveProductsInFile();
                 }
             }
                     clean_txt_data(); // limpiar txt componentes
@@ -59,6 +98,7 @@ public class control_inventory  implements ActionListener {
             if (selectedRow != -1) {
                 this.inventory.remove_product(selectedRow);
                 initTable();
+                saveProductsInFile();
             }else {
                 JOptionPane.showMessageDialog(null, "Por favor, seleccione un producto.");
             }
